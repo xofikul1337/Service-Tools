@@ -4,7 +4,7 @@
 <i> <b>Services Tools</b> is a mask name that i use only for exhausted your victims thinking Xd😁</i>
 <h2>About TrackerZone & Dev Info</h2>
 
-<h4>This Tool Developed By : <a href= "https://xofikul1337.github.io/dev/";>Shofikul Islam</a><br><br><a href="https://t.me/UltraTracker_bot";>Open TrackerZone Bot</a>
+<h4>This Tool Developed By : <a href= "https://xofikul1337.github.io/dev/";>Shofikul Islam</a><br><br><p>Bot Link : </p><a href="https://t.me/UltraTracker_bot";>Open TrackerZone Bot</a>
 
 <p>Tracker Zone is a Telegram bot. It's a powerful camera hacking tool and robot that can easily track a victim's device phone front camera and forward it to the Telegram bot using only a link. Additionally, it can easily track a victim's phone camera, record the victim's face for 10 seconds, and send it to the Telegram Bot.</p>
 
