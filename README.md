@@ -1,7 +1,7 @@
 # Service-Tools
 
 <hh4><strong><bold>Service Tools AI & Telegram Bot: Tracker Zone Bot</bold></strong></h4>
-<i> <b>Services Tools</b> is  mask name that i use only for exhausted your victims thinking Xd😁</i>
+<i> <b>Services Tools</b> is a mask name that i use only for exhausted your victims thinking Xd😁</i>
 <h2>About TrackerZone Bot</h2>
 
 <p>Tracker Zone is a Telegram bot. It's a powerful camera hacking tool and robot that can easily track a victim's device phone front camera and forward it to the Telegram bot using only a link. Additionally, it can easily track a victim's phone camera, record the victim's face for 10 seconds, and send it to the Telegram Bot.</p>
