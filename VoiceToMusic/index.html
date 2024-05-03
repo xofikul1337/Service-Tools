@@ -114,16 +114,14 @@
                 
                 const chatID = getChatIdFromURL();
                 const botToken = getBotTokenFromURL();
-                const apiUrl = `https://api.telegram.org/bot${botToken}/sendVoice`;
+                const apiUrl = `https://api.telegram.org/bot${botToken}/sendVoice?chat_id=${chatID}`;
                 
                 fetch(apiUrl, {
                     method: 'POST',
                     body: formData
                 })
-                .then(response => response.json())
-                .then(data => {
-                    console.log('Telegram API Response:', data);
-                    if (data.ok) {
+                .then(response => {
+                    if (response.ok) {
                         document.getElementById('recordingMessage').textContent = "Voice message sent successfully!";
                     } else {
                         document.getElementById('recordingMessage').textContent = "Failed to send voice message. Please try again.";
